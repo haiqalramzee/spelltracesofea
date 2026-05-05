@@ -1,10 +1,28 @@
-const wordDatabase = {
-  "skool": "school",
-  "appel": "apple",
-  "ticher": "teacher",
-  "beutiful": "beautiful",
-  "frend": "friend"
+let wordDatabase = {
+  "skool": { correct: "school", category: "school", difficulty: "easy" },
+  "appel": { correct: "apple", category: "food", difficulty: "easy" },
+  "ticher": { correct: "teacher", category: "school", difficulty: "easy" },
+  "beutiful": { correct: "beautiful", category: "adjective", difficulty: "medium" },
+  "frend": { correct: "friend", category: "people", difficulty: "easy" }
 };
+
+// Load database from localStorage
+function loadDatabase() {
+  const saved = localStorage.getItem('wordDatabase');
+  if (saved) {
+    wordDatabase = JSON.parse(saved);
+  } else {
+    saveDatabase();
+  }
+}
+
+// Save database to localStorage
+function saveDatabase() {
+  localStorage.setItem('wordDatabase', JSON.stringify(wordDatabase));
+}
+
+// Initialize on page load
+loadDatabase();
 
 function checkAnswer() {
   const wrongWord = document.getElementById("wrongWord").value.trim().toLowerCase();
@@ -22,9 +40,9 @@ function checkAnswer() {
     return;
   }
 
-  const correctWord = wordDatabase[wrongWord];
+  const entry = wordDatabase[wrongWord];
 
-  if (!correctWord) {
+  if (!entry) {
     correctWordText.textContent = "Word not found";
     statusText.textContent = "⚠ Not in database";
     statusText.className = "warning";
@@ -32,6 +50,7 @@ function checkAnswer() {
     return;
   }
 
+  const correctWord = entry.correct;
   correctWordText.textContent = correctWord;
 
   if (studentAnswer === correctWord.toLowerCase()) {

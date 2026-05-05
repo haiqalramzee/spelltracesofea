@@ -37,6 +37,25 @@ p {
   font-size: clamp(14px, 3vw, 16px);
 }
 
+.admin-link {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  background: #ff9800;
+  color: white;
+  padding: clamp(8px, 2vw, 10px);
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: clamp(13px, 2.5vw, 14px);
+  transition: background 0.3s ease;
+}
+
+.admin-link:hover {
+  background: #f57c00;
+}
+
 .section-title {
   background: #d9ead3;
   color: #1b5e20;

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpellTrace Admin - Manage Database</title>
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+  <div class="admin-container">
+    <header>
+      <h1>📚 SpellTrace Admin Panel</h1>
+      <p>Manage spelling words database</p>
+      <a href="index.html" class="back-btn">← Back to App</a>
+    </header>
+
+    <div class="admin-section">
+      <h2>Add New Word Entry</h2>
+      <div class="form-group">
+        <label>❌ Wrong Spelling</label>
+        <input type="text" id="wrongSpelling" placeholder="e.g., skool">
+        
+        <label>✅ Correct Spelling</label>
+        <input type="text" id="correctSpelling" placeholder="e.g., school">
+        
+        <label>🏷️ Category</label>
+        <input type="text" id="category" placeholder="e.g., school, food, people">
+        
+        <label>⭐ Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        
+        <button onclick="addNewWord()" class="btn-add">➕ Add Word</button>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>Word Database</h2>
+      <div class="table-container">
+        <table id="wordsTable">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Wrong Spelling</th>
+              <th>Correct Spelling</th>
+              <th>Category</th>
+              <th>Difficulty</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>Database Operations</h2>
+      <div class="button-group">
+        <button onclick="exportDatabase()" class="btn-export">📥 Export Database</button>
+        <button onclick="clearDatabase()" class="btn-danger">🗑️ Clear All (Caution!)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Word Entry</h2>
+      <div class="form-group">
+        <label>❌ Wrong Spelling</label>
+        <input type="text" id="editWrongSpelling" readonly>
+        
+        <label>✅ Correct Spelling</label>
+        <input type="text" id="editCorrectSpelling">
+        
+        <label>🏷️ Category</label>
+        <input type="text" id="editCategory">
+        
+        <label>⭐ Difficulty</label>
+        <select id="editDifficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        
+        <div class="modal-buttons">
+          <button onclick="saveEditedWord()" class="btn-save">💾 Save Changes</button>
+          <button onclick="closeEditModal()" class="btn-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
