@@ -156,9 +156,6 @@ function clearDatabase() {
     }
   }
 }
-    }
-  }
-}
 
 // Close modal when clicking outside
 window.onclick = function(event) {
