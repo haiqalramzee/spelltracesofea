@@ -354,12 +354,14 @@ tbody tr:last-child td {
 
 /* Footer Styles */
 .app-footer {
+  width: 100%;
   text-align: center;
   padding: 20px;
   color: #999;
   font-size: clamp(12px, 2vw, 14px);
   border-top: 1px solid #eee;
-  background: #f9f9f9;
+  background: #f5f7f2;
+  margin-top: 30px;
 }
 
 .app-footer p {
