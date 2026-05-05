@@ -352,6 +352,23 @@ tbody tr:last-child td {
   flex: 1;
 }
 
+/* Footer Styles */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: clamp(12px, 2vw, 14px);
+  border-top: 1px solid #eee;
+  background: #f9f9f9;
+}
+
+.app-footer p {
+  margin: 0;
+  font-style: italic;
+  color: #1b5e20;
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .admin-container {

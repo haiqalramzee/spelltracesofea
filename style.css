@@ -56,6 +56,23 @@ p {
   background: #f57c00;
 }
 
+/* Footer Styles */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: clamp(12px, 2vw, 14px);
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.app-footer p {
+  margin: 0;
+  font-style: italic;
+  color: #1b5e20;
+  font-weight: bold;
+}
+
 .section-title {
   background: #d9ead3;
   color: #1b5e20;
