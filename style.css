@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.app {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+h1 {
+  text-align: center;
+  color: #1b5e20;
+  margin-bottom: 5px;
+  font-size: clamp(24px, 5vw, 32px);
+}
+
+p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+.section-title {
+  background: #d9ead3;
+  color: #1b5e20;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 20px 0 12px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 12px;
+}
+
+input {
+  width: 100%;
+  padding: clamp(10px, 2vw, 12px);
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff8dc;
+  font-size: clamp(14px, 2.5vw, 15px);
+}
+
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: clamp(10px, 2.5vw, 12px);
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #1b5e20;
+}
+
+.result-box {
+  background: #f1f1f1;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.wrong {
+  color: red;
+  font-weight: bold;
+}
+
+.warning {
+  color: orange;
+  font-weight: bold;
+}
+
+/* Mobile First - Responsive Design */
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+  
+  .app {
+    padding: 15px;
+  }
+  
+  .section-title {
+    padding: 6px;
+    margin: 15px 0 10px;
+    font-size: 14px;
+  }
+  
+  label {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .result-box {
+    padding: 10px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+  
+  .app {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 769px) {
+  .app {
+    max-width: 450px;
+  }
+}

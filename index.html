@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpellTrace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+    <h1>SPELLTRACE 🔍</h1>
+    <p>Smart Spelling Checker for Teacher Sofea HIHI 🧑‍🏫</p>
+
+    <div class="section-title">INPUT SECTION</div>
+
+    <label>📝 Wrong Word</label>
+    <input type="text" id="wrongWord" placeholder="Example: skool">
+
+    <label>✏️ Student Answer</label>
+    <input type="text" id="studentAnswer" placeholder="Example: school">
+
+    <button onclick="checkAnswer()">🔍 Check Answer</button>
+
+    <div class="section-title">RESULT SECTION</div>
+
+    <div class="result-box">
+      <strong>📖 Correct Word:</strong>
+      <span id="correctWord">-</span>
+    </div>
+
+    <div class="result-box">
+      <strong>📊 Status:</strong>
+      <span id="status">-</span>
+    </div>
+
+    <div class="result-box">
+      <strong>💬 Comment:</strong>
+      <span id="comment">-</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
