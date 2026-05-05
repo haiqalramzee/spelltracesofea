@@ -22,6 +22,12 @@ async function initializeFirebase() {
   }
   
   isFirebaseReady = true;
+  
+  // Refresh UI with loaded data
+  if (typeof displayTable === 'function') {
+    displayTable();
+    console.log('🔄 UI refreshed with Firebase data');
+  }
 }
 
 // Load database from localStorage (fallback)
