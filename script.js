@@ -10,13 +10,6 @@ let isFirebaseReady = false;
 
 // Initialize Firebase database listener
 function initializeFirebase() {
-  // Wait for Firebase to be initialized
-  if (typeof firebase === 'undefined' || !firebase.apps.length) {
-    console.warn('⏳ Firebase not ready yet, retrying...');
-    setTimeout(initializeFirebase, 500);
-    return;
-  }
-  
   try {
     const wordsRef = firebase.database().ref('words');
     

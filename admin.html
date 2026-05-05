@@ -96,13 +96,13 @@
     </div>
   </div>
 
-  <!-- Firebase SDK (loaded from CDN) -->
-  <script defer src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+  <!-- Firebase SDK (must load first, synchronously) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+  <script src="firebase-config.js"></script>
   
-  <!-- App Scripts (load after Firebase SDK) -->
-  <script defer src="firebase-config.js"></script>
-  <script defer src="script.js"></script>
-  <script defer src="admin.js"></script>
+  <!-- App Scripts -->
+  <script src="script.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>
