@@ -8,13 +8,20 @@ const firebaseConfig = {
   appId: "1:1066394300900:web:4ee9e0d2a03fb04c10d7f1"
 };
 
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+// Wait for Firebase SDK to load
+function initializeFirebaseSDK() {
+  if (typeof firebase === 'undefined') {
+    console.log('⏳ Waiting for Firebase SDK...');
+    setTimeout(initializeFirebaseSDK, 500);
+    return;
+  }
+  
+  // Initialize Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+    console.log('✅ Firebase initialized successfully!');
+  }
 }
 
-// Get Realtime Database reference
-const database = firebase.database();
-const wordsRef = database.ref('words');
-
-console.log('✅ Firebase initialized successfully!');
+// Start initialization
+initializeFirebaseSDK();
