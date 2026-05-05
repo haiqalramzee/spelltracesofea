@@ -37,7 +37,8 @@ function displayTable() {
 }
 
 // Add new word to Firebase
-function addNewWord() {
+// Add new word to Firebase REST API
+async function addNewWord() {
   const wrong = document.getElementById('wrongSpelling').value.trim().toLowerCase();
   const correct = document.getElementById('correctSpelling').value.trim();
   const category = document.getElementById('category').value.trim();
@@ -54,23 +55,28 @@ function addNewWord() {
     return;
   }
   
-  // Add to Firebase
-  const wordsRef = firebase.database().ref('words/' + wrong);
-  wordsRef.set({
+  // Add to database
+  wordDatabase[wrong] = {
     correct: correct,
     category: category || 'general',
     difficulty: difficulty
-  }).then(() => {
+  };
+  
+  // Save to Firebase
+  const success = await firebaseWrite('words', wordDatabase);
+  if (success) {
     // Clear form
     document.getElementById('wrongSpelling').value = '';
     document.getElementById('correctSpelling').value = '';
     document.getElementById('category').value = '';
     document.getElementById('difficulty').value = 'easy';
     
+    displayTable();
     alert('✅ Word added successfully!');
-  }).catch(error => {
-    alert('❌ Error adding word: ' + error.message);
-  });
+  } else {
+    alert('❌ Error saving to Firebase');
+    delete wordDatabase[wrong]; // Revert on error
+  }
 }
 
 // Edit word
@@ -86,8 +92,8 @@ function editWord(wrong) {
   document.getElementById('editModal').style.display = 'block';
 }
 
-// Save edited word to Firebase
-function saveEditedWord() {
+// Save edited word to Firebase REST API
+async function saveEditedWord() {
   if (!editingWord) return;
   
   const newCorrect = document.getElementById('editCorrectSpelling').value.trim();
@@ -99,18 +105,22 @@ function saveEditedWord() {
     return;
   }
   
-  // Update in Firebase
-  const wordsRef = firebase.database().ref('words/' + editingWord);
-  wordsRef.set({
+  // Update in database
+  wordDatabase[editingWord] = {
     correct: newCorrect,
     category: newCategory || 'general',
     difficulty: newDifficulty
-  }).then(() => {
+  };
+  
+  // Save to Firebase
+  const success = await firebaseWrite('words', wordDatabase);
+  if (success) {
     closeEditModal();
+    displayTable();
     alert('✅ Word updated successfully!');
-  }).catch(error => {
-    alert('❌ Error updating word: ' + error.message);
-  });
+  } else {
+    alert('❌ Error updating word');
+  }
 }
 
 // Close edit modal
@@ -119,15 +129,17 @@ function closeEditModal() {
   editingWord = null;
 }
 
-// Delete word from Firebase
-function deleteWord(wrong) {
+// Delete word from Firebase REST API
+async function deleteWord(wrong) {
   if (confirm(`⚠️ Are you sure you want to delete "${wrong}"?`)) {
-    const wordsRef = firebase.database().ref('words/' + wrong);
-    wordsRef.remove().then(() => {
+    delete wordDatabase[wrong];
+    const success = await firebaseWrite('words', wordDatabase);
+    if (success) {
+      displayTable();
       alert('✅ Word deleted successfully!');
-    }).catch(error => {
-      alert('❌ Error deleting word: ' + error.message);
-    });
+    } else {
+      alert('❌ Error deleting word');
+    }
   }
 }
 
@@ -143,16 +155,18 @@ function exportDatabase() {
   alert('📥 Database exported as JSON file!');
 }
 
-// Clear all database (with confirmation) in Firebase
-function clearDatabase() {
+// Clear all database (with confirmation) in Firebase REST API
+async function clearDatabase() {
   if (confirm('🚨 WARNING: This will delete ALL words! Are you absolutely sure?')) {
     if (confirm('⚠️ Last chance! Click OK to permanently clear the database.')) {
-      const wordsRef = firebase.database().ref('words');
-      wordsRef.remove().then(() => {
+      wordDatabase = {};
+      const success = await firebaseWrite('words', wordDatabase);
+      if (success) {
+        displayTable();
         alert('✅ Database cleared!');
-      }).catch(error => {
-        alert('❌ Error clearing database: ' + error.message);
-      });
+      } else {
+        alert('❌ Error clearing database');
+      }
     }
   }
 }

@@ -8,29 +8,20 @@ let wordDatabase = {
 
 let isFirebaseReady = false;
 
-// Initialize Firebase database listener
-function initializeFirebase() {
-  try {
-    const wordsRef = firebase.database().ref('words');
-    
-    // Listen for real-time updates
-    wordsRef.on('value', (snapshot) => {
-      if (snapshot.exists()) {
-        wordDatabase = snapshot.val();
-        console.log('✅ Database loaded from Firebase');
-      } else {
-        // First time - upload default data
-        console.log('📝 Initializing Firebase with default data...');
-        wordsRef.set(wordDatabase).then(() => {
-          console.log('✅ Default data uploaded to Firebase');
-        });
-      }
-      isFirebaseReady = true;
-    });
-  } catch (error) {
-    console.error('Firebase initialization error:', error);
-    isFirebaseReady = true;
+// Initialize Firebase data on page load
+async function initializeFirebase() {
+  console.log('📡 Loading data from Firebase...');
+  const data = await firebaseRead('words');
+  
+  if (data) {
+    wordDatabase = data;
+    console.log('✅ Data loaded from Firebase');
+  } else {
+    console.log('📝 No data found, uploading default data...');
+    await firebaseWrite('words', wordDatabase);
   }
+  
+  isFirebaseReady = true;
 }
 
 // Load database from localStorage (fallback)
