@@ -36,7 +36,7 @@ function displayTable() {
   }
 }
 
-// Add new word
+// Add new word to Firebase
 function addNewWord() {
   const wrong = document.getElementById('wrongSpelling').value.trim().toLowerCase();
   const correct = document.getElementById('correctSpelling').value.trim();
@@ -54,24 +54,23 @@ function addNewWord() {
     return;
   }
   
-  // Add to database
-  wordDatabase[wrong] = {
+  // Add to Firebase
+  const wordsRef = firebase.database().ref('words/' + wrong);
+  wordsRef.set({
     correct: correct,
     category: category || 'general',
     difficulty: difficulty
-  };
-  
-  // Save and refresh
-  saveDatabase();
-  displayTable();
-  
-  // Clear form
-  document.getElementById('wrongSpelling').value = '';
-  document.getElementById('correctSpelling').value = '';
-  document.getElementById('category').value = '';
-  document.getElementById('difficulty').value = 'easy';
-  
-  alert('✅ Word added successfully!');
+  }).then(() => {
+    // Clear form
+    document.getElementById('wrongSpelling').value = '';
+    document.getElementById('correctSpelling').value = '';
+    document.getElementById('category').value = '';
+    document.getElementById('difficulty').value = 'easy';
+    
+    alert('✅ Word added successfully!');
+  }).catch(error => {
+    alert('❌ Error adding word: ' + error.message);
+  });
 }
 
 // Edit word
@@ -87,7 +86,7 @@ function editWord(wrong) {
   document.getElementById('editModal').style.display = 'block';
 }
 
-// Save edited word
+// Save edited word to Firebase
 function saveEditedWord() {
   if (!editingWord) return;
   
@@ -100,16 +99,18 @@ function saveEditedWord() {
     return;
   }
   
-  wordDatabase[editingWord] = {
+  // Update in Firebase
+  const wordsRef = firebase.database().ref('words/' + editingWord);
+  wordsRef.set({
     correct: newCorrect,
     category: newCategory || 'general',
     difficulty: newDifficulty
-  };
-  
-  saveDatabase();
-  displayTable();
-  closeEditModal();
-  alert('✅ Word updated successfully!');
+  }).then(() => {
+    closeEditModal();
+    alert('✅ Word updated successfully!');
+  }).catch(error => {
+    alert('❌ Error updating word: ' + error.message);
+  });
 }
 
 // Close edit modal
@@ -118,13 +119,15 @@ function closeEditModal() {
   editingWord = null;
 }
 
-// Delete word
+// Delete word from Firebase
 function deleteWord(wrong) {
   if (confirm(`⚠️ Are you sure you want to delete "${wrong}"?`)) {
-    delete wordDatabase[wrong];
-    saveDatabase();
-    displayTable();
-    alert('✅ Word deleted successfully!');
+    const wordsRef = firebase.database().ref('words/' + wrong);
+    wordsRef.remove().then(() => {
+      alert('✅ Word deleted successfully!');
+    }).catch(error => {
+      alert('❌ Error deleting word: ' + error.message);
+    });
   }
 }
 
@@ -140,14 +143,19 @@ function exportDatabase() {
   alert('📥 Database exported as JSON file!');
 }
 
-// Clear all database (with confirmation)
+// Clear all database (with confirmation) in Firebase
 function clearDatabase() {
   if (confirm('🚨 WARNING: This will delete ALL words! Are you absolutely sure?')) {
     if (confirm('⚠️ Last chance! Click OK to permanently clear the database.')) {
-      wordDatabase = {};
-      saveDatabase();
-      displayTable();
-      alert('✅ Database cleared!');
+      const wordsRef = firebase.database().ref('words');
+      wordsRef.remove().then(() => {
+        alert('✅ Database cleared!');
+      }).catch(error => {
+        alert('❌ Error clearing database: ' + error.message);
+      });
+    }
+  }
+}
     }
   }
 }

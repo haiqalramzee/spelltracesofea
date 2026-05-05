@@ -6,23 +6,57 @@ let wordDatabase = {
   "frend": { correct: "friend", category: "people", difficulty: "easy" }
 };
 
-// Load database from localStorage
+let isFirebaseReady = false;
+
+// Initialize Firebase database listener
+function initializeFirebase() {
+  if (typeof firebase === 'undefined') {
+    console.warn('Firebase not loaded yet');
+    setTimeout(initializeFirebase, 500);
+    return;
+  }
+  
+  try {
+    const wordsRef = firebase.database().ref('words');
+    
+    // Listen for real-time updates
+    wordsRef.on('value', (snapshot) => {
+      if (snapshot.exists()) {
+        wordDatabase = snapshot.val();
+        console.log('✅ Database loaded from Firebase');
+      } else {
+        // First time - upload default data
+        console.log('📝 Initializing Firebase with default data...');
+        wordsRef.set(wordDatabase).then(() => {
+          console.log('✅ Default data uploaded to Firebase');
+        });
+      }
+      isFirebaseReady = true;
+    });
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    isFirebaseReady = true;
+  }
+}
+
+// Load database from localStorage (fallback)
 function loadDatabase() {
   const saved = localStorage.getItem('wordDatabase');
   if (saved) {
     wordDatabase = JSON.parse(saved);
-  } else {
-    saveDatabase();
   }
 }
 
-// Save database to localStorage
+// Save database to localStorage (backup)
 function saveDatabase() {
   localStorage.setItem('wordDatabase', JSON.stringify(wordDatabase));
 }
 
 // Initialize on page load
 loadDatabase();
+document.addEventListener('DOMContentLoaded', function() {
+  initializeFirebase();
+});
 
 function checkAnswer() {
   const wrongWord = document.getElementById("wrongWord").value.trim().toLowerCase();
